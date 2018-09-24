@@ -20,7 +20,18 @@ var ingredientFilter = document.getElementById('ingredient-filter');
 ingredientFilter.addEventListener('change', applyFilters);
 
 function applyFilters() {
-    $('#recipe-list').load('/?search=' + encodeURIComponent(searchVal) +
-        '&ingredient=' + ingredientFilter.value +
-        ' #recipe-list > div');
+    $.post({
+        url: '',
+        data: {
+            action: 'on-the-rocks/filter-recipes',
+            search: search.value,
+            ingredient: ingredientFilter.value
+        },
+        headers: {
+            'X-CSRF-Token': window.csrfTokenValue
+        },
+        success: function(response) {
+            $('#recipe-list').html(response);
+        }
+    });
 }
