@@ -5,6 +5,11 @@
     "craftcms/redactor": "2.1.6",
     "verbb/super-table": "2.0.9"
   },
+  "autoload": {
+    "psr-4": {
+      "ontherocks\\": "src/"
+    }
+  },
   "config": {
     "optimize-autoloader": true,
     "platform": {
