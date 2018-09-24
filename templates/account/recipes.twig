@@ -1,0 +1,24 @@
+{% extends '_layouts/account' %}
+
+{% set accountPage = 'recipes' %}
+
+{% set recipes = craft.entries()
+    .section('recipes')
+    .authorId(currentUser.id)
+    .all() %}
+
+{% block title -%}
+    My Recipes | {{ parent() }}
+{%- endblock %}
+
+{% block content %}
+    <div class="container mx-auto px-6">
+        <h1 class="page-heading">My Recipes</h1>
+
+        <div class="flex flex-wrap -mx-4">
+            {% include '_includes/recipe-list' with {
+                recipes: recipes
+            } %}
+        </div>
+    </div>
+{% endblock %}

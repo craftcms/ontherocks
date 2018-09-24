@@ -38,6 +38,12 @@
                             {{ svg('@webroot/images/logo.svg')|replace('<svg', '<svg class="h-8 w-8 mr-2"')|raw }}
                             <h1 class="font-semibold text-xl text-grey-darkest tracking-tight">{{ siteName }}</h1>
                         </a>
+                        {% if path not in ['login', 'register', 'submit'] %}
+                            <a class="md:ml-8 submit-btn flex items-center" href="{{ url('submit') }}" title="Submit a new recipe">
+                                {{ svg('@webroot/images/plus.svg')|replace('<svg', '<svg class="h-3 w-3 -mx-1 fill-current text-white"')|raw -}}
+                                <span class="hidden md:inline ml-3 text-sm">New Recipe</span>
+                            </a>
+                        {% endif %}
                         <div class="hidden md:block md:flex-grow"></div>
                         <div class="flex items-center">
                             {% if currentUser %}

@@ -3,9 +3,12 @@
 namespace ontherocks;
 
 use Craft;
+use craft\base\Element;
 use craft\elements\db\EntryQuery;
+use craft\elements\Entry;
 use craft\events\DefineBehaviorsEvent;
 use ontherocks\behaviors\EntryQueryBehavior;
+use ontherocks\behaviors\RecipeBehavior;
 use yii\base\Event;
 
 /**
@@ -47,6 +50,16 @@ class Module extends \yii\base\Module
         // define entry query behavior
         Event::on(EntryQuery::class, EntryQuery::EVENT_DEFINE_BEHAVIORS, function(DefineBehaviorsEvent $event) {
             $event->behaviors[$this->id] = EntryQueryBehavior::class;
+        });
+
+        // define recipe behavior
+        Event::on(Entry::class, Element::EVENT_DEFINE_BEHAVIORS, function(DefineBehaviorsEvent $event) {
+            /** @var Entry $entry */
+            $entry = $event->sender;
+
+            if ($entry->id && $entry->section->handle === 'recipes') {
+                $event->behaviors["$this->id.recipe"] = RecipeBehavior::class;
+            }
         });
     }
 }

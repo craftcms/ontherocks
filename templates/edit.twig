@@ -1,0 +1,35 @@
+{% extends '_layouts/recipe-form' %}
+
+{% set id = craft.app.request.getRequiredQueryParam('id') %}
+
+{% set recipe = craft.entries()
+    .section('recipes')
+    .id(id)
+    .one() %}
+
+{% if not recipe %}
+    {% exit 404 %}
+{% endif %}
+
+{% set photo = recipe.photo.one() %}
+
+{% block title -%}
+    Edit {{ recipe.title }} | {{ parent() }}
+{%- endblock %}
+
+{% block heading -%}
+    <span class="flex items-center justify-center flex-wrap">
+        <span class="font-normal">Edit</span>
+        <a class="ml-3 flex items-center no-underline text-grey-darkest hover:text-orange-dark" href="{{ recipe.url }}">
+            {% if photo %}
+                {% set thumbUrl = photo.url({ width: 120, height: 120}) %}
+                <img class="block w-8 h-8 md:w-16 md:h-16 rounded mr-3" src="{{ thumbUrl }}">
+            {% endif %}
+            <span class="font-bold">{{ recipe.title }}</span>
+        </a>
+    </span>
+{%- endblock %}
+
+{% block submitLabel -%}
+    Save
+{%- endblock %}

@@ -85,6 +85,11 @@
                     <div class="w-1/2 px-4">
                         <a class="block text-center submit-btn" href="mailto:?subject={{ entry.title|url_encode }}&body={{ "Check out this #{entry.title} recipe I found:\n\n#{entry.url}"|url_encode }}">Share this recipe</a>
                     </div>
+                    <div class="w-1/2 px-4">
+                        {% if currentUser and entry.authorId == currentUser.id %}
+                            <a class="block text-center btn" href="{{ url('edit', { id: entry.id }) }}">Edit your recipe</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

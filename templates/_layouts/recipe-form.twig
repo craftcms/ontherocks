@@ -1,0 +1,100 @@
+{% extends '_layouts/base' %}
+
+{% requireLogin %}
+
+{% set recipe = recipe ?? null %}
+{% set isNew = not (recipe and recipe.id) %}
+
+{% set glassField = craft.app.fields.getFieldByHandle('glass') %}
+
+{% block content %}
+    <div class="container mx-auto px-6">
+        <div class="max-w-md mx-auto">
+            <h1 class="page-heading text-center font-normal">{% block heading %}{% endblock %}</h1>
+
+            <form method="post" action="">
+                {{ csrfInput() }}
+                <input type="hidden" name="action" value="on-the-rocks/recipes/save">
+                {% if not isNew %}
+                    <input type="hidden" name="id" value="{{ recipe.id ?? '' }}">
+                    <input type="hidden" name="redirect" value="{{ '{url}'|hash }}">
+                {% else %}
+                    <input type="hidden" name="redirect" value="{{ ''|hash }}">
+                {% endif %}
+
+                <div class="mb-6">
+                    {% include '_includes/text' with {
+                        label: 'Name',
+                        name: 'name',
+                        placeholder: 'Gin and Tonic',
+                        value: recipe ? recipe.title,
+                        error: recipe ? recipe.getFirstError('title')
+                    } %}
+                </div>
+
+                <div class="mb-6">
+                    {% include '_includes/textarea' with {
+                        label: 'Ingredients',
+                        name: 'ingredients',
+                        rows: 4,
+                        placeholder: '1 part gin\n2 parts tonic water',
+                        instructions: 'Write one ingredient per line.',
+                        value: recipe ? recipe.ingredientsText,
+                        error: recipe ? recipe.getFirstError('ingredients')
+                    } %}
+                </div>
+
+                <div class="mb-6">
+                    {% include '_includes/textarea' with {
+                        label: 'Directions',
+                        name: 'directions',
+                        rows: 4,
+                        placeholder: 'Pour gin and tonic water over ice.\nStir and enjoy.',
+                        instructions: 'Write one step per line.',
+                        value: recipe ? recipe.directionsText,
+                        error: recipe ? recipe.getFirstError('directions')
+                    } %}
+                </div>
+
+                <div class="mb-6">
+                    {% include '_includes/textarea' with {
+                        label: 'Description',
+                        name: 'description',
+                        value: recipe ? recipe.description,
+                        error: recipe ? recipe.getFirstError('description')
+                    } %}
+                </div>
+
+                <div class="mb-6">
+                    {% embed '_includes/field' with { id: 'glass', label: 'Type of Glass' } %}
+                        {% block input %}
+                            <div class="flex flex-wrap">
+                                {% for option in glassField.options %}
+                                    {% set checked = recipe
+                                        ? recipe.glass.value == option.value
+                                        : option.default %}
+                                    <label class="block py-2 w-16" title="{{ option.label }}">
+                                        {{ svg("@webroot/images/glass-icons/#{option.value}.svg")|replace('<svg', '<svg class="block mx-auto mb-1 w-8 h-8 stroke-current text-grey-dark"')|raw }}
+                                        <div class="text-center">
+                                            <input type="radio" name="glass" value="{{ option.value }}" {% if checked %}checked{% endif %}>
+                                        </div>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        {% endblock %}
+                    {% endembed %}
+                </div>
+
+                <button class="submit-btn" type="submit">{% block submitLabel %}Submit{% endblock %}</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <script src="{{ alias('@web/scripts/ckeditor/ckeditor.js') }}"></script>
+    <script>
+        CKEDITOR.replace('description');
+    </script>
+{% endblock %}
