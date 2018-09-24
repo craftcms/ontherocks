@@ -1,0 +1,54 @@
+{% extends '_layouts/base' %}
+
+{% requireLogin %}
+
+{% set id = craft.app.request.getRequiredQueryParam('id') %}
+
+{% set recipe = craft.entries()
+    .section('recipes')
+    .id(id)
+    .one() %}
+
+{% if not recipe %}
+    {% exit 404 %}
+{% endif %}
+
+{% set photo = recipe.photo.one() %}
+
+{% block title -%}
+    Report an Issue | {{ parent() }}
+{%- endblock %}
+
+{% block content %}
+    <div class="container mx-auto px-6">
+        <div class="max-w-sm mx-auto">
+            <h2 class="mb-4 text-center text-grey-darkest font-normal flex items-center justify-center">
+                <span>Report an issue with </span>
+                <a class="ml-2 flex items-center no-underline text-grey-darkest hover:text-orange-dark" href="{{ recipe.url }}">
+                    {% if photo %}
+                        {% set thumbUrl = photo.url({ width: 80, height: 80}) %}
+                        <img class="block w-8 h-8 rounded mr-2" src="{{ thumbUrl }}">
+                    {% endif %}
+                    <span class="font-bold">{{ recipe.title }}</span>
+                </a>
+            </h2>
+
+            <form class="bg-grey-light p-12" method="post" action="">
+                {{ csrfInput() }}
+                <input type="hidden" name="action" value="on-the-rocks/report">
+                <input type="hidden" name="id" value="{{ recipe.id }}">
+                <input type="hidden" name="redirect" value="{{ ''|hash }}">
+
+                <div class="mb-6">
+                    {% include '_includes/textarea' with {
+                        label: 'What’s the issue?',
+                        name: 'issue',
+                        rows: 6
+                    } %}
+                </div>
+
+                <button class="submit-btn" type="submit">Report</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

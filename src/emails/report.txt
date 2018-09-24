@@ -1,0 +1,10 @@
+{{ currentUser.name }} just reported an issue with [{{ recipe.title }}]({{ recipe.url }}).
+
+---
+
+{{ issue }}
+
+---
+
+- [Edit recipe]({{ recipe.cpEditUrl }})
+- [Edit reporter]({{ currentUser.cpEditUrl }})

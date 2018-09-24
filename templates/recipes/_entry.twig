@@ -88,6 +88,8 @@
                     <div class="w-1/2 px-4">
                         {% if currentUser and entry.authorId == currentUser.id %}
                             <a class="block text-center btn" href="{{ url('edit', { id: entry.id }) }}">Edit your recipe</a>
+                        {% else %}
+                            <a class="block text-center btn" href="{{ url('report', { id: entry.id }) }}">Report a problem</a>
                         {% endif %}
                     </div>
                 </div>
