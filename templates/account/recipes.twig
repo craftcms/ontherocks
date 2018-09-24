@@ -19,3 +19,8 @@
         </div>
     </div>
 {% endblock %}
+
+{% block body %}
+    {{ parent()|raw }}
+    <script src="{{ alias('@web/scripts/reaction-tooltip.js') }}"></script>
+{% endblock %}

@@ -14,6 +14,7 @@ use craft\services\SystemMessages;
 use ontherocks\behaviors\EntryQueryBehavior;
 use ontherocks\behaviors\RecipeBehavior;
 use ontherocks\behaviors\UserBehavior;
+use ontherocks\services\Reactions;
 use yii\base\Event;
 
 /**
@@ -32,6 +33,8 @@ use yii\base\Event;
  *
  * Learn more about Yii module development in Yii's documentation:
  * http://www.yiiframework.com/doc-2.0/guide-structure-modules.html
+ *
+ * @property Reactions $reactions
  */
 class Module extends \yii\base\Module
 {
@@ -83,5 +86,8 @@ class Module extends \yii\base\Module
                 'body' => file_get_contents(Craft::getAlias('@ontherocks/emails/report.txt')),
             ]);
         });
+
+        // set the module components
+        $this->set('reactions', Reactions::class);
     }
 }

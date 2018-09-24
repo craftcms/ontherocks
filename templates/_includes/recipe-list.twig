@@ -9,6 +9,9 @@
             {% endif %}
             <div class="flex items-center justify-between p-6">
                 <span class="font-bold">{{ recipe.title }}</span>
+                {% include '_includes/reactions' with {
+                    reactions: recipe.reactions[0:3],
+                } %}
             </div>
         </a>
     </div>

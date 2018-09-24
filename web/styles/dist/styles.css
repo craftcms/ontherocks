@@ -6507,6 +6507,39 @@ body.cover-image #recipe {
   }
 }
 
+.reaction {
+  display: flex;
+  align-items: center;
+  font-size: .875rem;
+  color: #606f7b;
+}
+
+.reaction:not(:last-child) {
+  margin-right: .5rem;
+}
+
+.reaction:not(.interactive) {
+  cursor: default;
+}
+
+.reaction.interactive {
+  border-width: 1px;
+  border-color: #b8c2cc;
+  border-radius: .125rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.reaction.interactive:hover {
+  border-color: #f6993f;
+}
+
+.reaction .emoji {
+  margin-right: .25rem;
+}
+
 #body-container {
   position: relative;
   z-index: 1;

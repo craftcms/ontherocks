@@ -1,0 +1,15 @@
+{% set interactive = (interactive ?? false) and currentUser %}
+
+<div class="flex items-center flex-wrap">
+    {% for reaction, users in reactions %}
+        <span class="reaction {% if interactive %}interactive{% endif %}" data-users="{{ users|join(',') }}">
+            <span class="emoji">{{ reaction }}</span>
+            <span class="count">{{ users|length }}</span>
+        </span>
+    {% endfor %}
+    {% if interactive %}
+        <span class="add-reaction block h-8 flex text-grey hover:text-orange-dark cursor-pointer" title="Add a reaction">
+            {{ svg('@webroot/images/add-reaction.svg')|replace('<svg', '<svg class="block w-10 stroke-current"')|raw }}
+        </span>
+    {% endif %}
+</div>

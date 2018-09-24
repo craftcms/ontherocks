@@ -1,0 +1,23 @@
+.reaction {
+  @apply flex items-center text-sm text-grey-darker;
+}
+
+.reaction:not(:last-child) {
+  @apply mr-2;
+}
+
+.reaction:not(.interactive) {
+  @apply cursor-default;
+}
+
+.reaction.interactive {
+  @apply border border-grey rounded-sm px-2 h-8 cursor-pointer;
+}
+
+.reaction.interactive:hover {
+  @apply border-orange;
+}
+
+.reaction .emoji {
+  @apply mr-1;
+}
