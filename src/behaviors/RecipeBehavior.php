@@ -16,21 +16,21 @@ class RecipeBehavior extends Behavior
 {
     private $_reactions;
 
-    public function getIngredientsText(): string
+    public function getIngredientsText(bool $includeDashes = false): string
     {
         $lines = [];
         foreach ($this->owner->ingredients->all() as $ingredient) {
             /** @var SuperTableBlockElement $ingredient */
-            $lines[] = $ingredient->label;
+            $lines[] = ($includeDashes ? '- ' : '') . $ingredient->label;
         }
         return implode("\n", $lines);
     }
 
-    public function getDirectionsText(): string
+    public function getDirectionsText(bool $includeNums = false): string
     {
         $lines = [];
-        foreach ($this->owner->directions as $direction) {
-            $lines[] = $direction['step'];
+        foreach ($this->owner->directions as $i => $direction) {
+            $lines[] = ($includeNums ? ($i + 1) . '. ' : '') . $direction['step'];
         }
         return implode("\n", $lines);
     }
