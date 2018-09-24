@@ -37,8 +37,15 @@
                         <h1 class="page-heading mt-4 pb-2 border-b-4 border-grey-lighter text-center lg:text-left">{{ entry.title }}</h1>
                         <ul class="list-reset mb-6">
                             {% for ingredient in entry.ingredients.all() %}
+                                {% set ingredientEntry = ingredient.entry.one() %}
                                 <li class="mb-1 font-bold">
                                     {{ ingredient.label }}
+                                    {% if ingredientEntry %}
+                                        {% set ingredientUrl = url('', { ingredient: ingredientEntry.slug }) %}
+                                        <a class="ml-1 inline-block align-bottom text-center bg-orange-light w-4 h-4 rounded-full text-orange hover:bg-orange-dark" href="{{ ingredientUrl }}">
+                                            <svg class="inline-block text-white fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/></svg>
+                                        </a>
+                                    {% endif %}
                                 </li>
                             {% endfor %}
                         </ul>
