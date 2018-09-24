@@ -27,21 +27,16 @@ class ReportController extends Controller
             throw new BadRequestHttpException("No recipe exists with the ID $id.");
         }
 
-        // prepare the body
-        $body = file_get_contents(Craft::getAlias('@ontherocks/emails/report.txt'));
-        $body = Craft::$app->view->renderString($body, [
-            'recipe' => $entry,
-            'issue' => $issue,
-        ]);
-
         // send the email
         $mailer = Craft::$app->getMailer();
 
         $mailer
-            ->compose()
+            ->composeFromKey(Module::MESSAGE_KEY_RECIPE_ISSUE, [
+                'recipe' => $entry,
+                'issue' => $issue,
+            ])
             ->setFrom($mailer->from)
             ->setTo(getenv('RECIPE_ISSUE_RECIPIENT'))
-            ->setTextBody($body)
             ->send();
 
         Craft::$app->session->setNotice('Your issue has been sent. Thanks for reporting!');

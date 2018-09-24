@@ -8,6 +8,9 @@ use craft\elements\db\EntryQuery;
 use craft\elements\Entry;
 use craft\elements\User;
 use craft\events\DefineBehaviorsEvent;
+use craft\events\RegisterEmailMessagesEvent;
+use craft\models\SystemMessage;
+use craft\services\SystemMessages;
 use ontherocks\behaviors\EntryQueryBehavior;
 use ontherocks\behaviors\RecipeBehavior;
 use ontherocks\behaviors\UserBehavior;
@@ -32,6 +35,8 @@ use yii\base\Event;
  */
 class Module extends \yii\base\Module
 {
+    const MESSAGE_KEY_RECIPE_ISSUE = 'ontherocks_recipe_issue';
+
     /**
      * Initializes the module.
      */
@@ -67,6 +72,16 @@ class Module extends \yii\base\Module
         // define user behavior
         Event::on(User::class, Element::EVENT_DEFINE_BEHAVIORS, function(DefineBehaviorsEvent $event) {
             $event->behaviors[$this->id] = UserBehavior::class;
+        });
+
+        // register custom system message
+        Event::on(SystemMessages::class, SystemMessages::EVENT_REGISTER_MESSAGES, function(RegisterEmailMessagesEvent $e) {
+            $e->messages[] = new SystemMessage([
+                'key' => self::MESSAGE_KEY_RECIPE_ISSUE,
+                'heading' => 'When someone reports an issue with a recipe:',
+                'subject' => 'Issue reported for {{ recipe.title }}',
+                'body' => file_get_contents(Craft::getAlias('@ontherocks/emails/report.txt')),
+            ]);
         });
     }
 }
