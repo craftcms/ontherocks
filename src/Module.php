@@ -3,6 +3,10 @@
 namespace ontherocks;
 
 use Craft;
+use craft\elements\db\EntryQuery;
+use craft\events\DefineBehaviorsEvent;
+use ontherocks\behaviors\EntryQueryBehavior;
+use yii\base\Event;
 
 /**
  * Custom module class.
@@ -39,5 +43,10 @@ class Module extends \yii\base\Module
         }
 
         parent::init();
+
+        // define entry query behavior
+        Event::on(EntryQuery::class, EntryQuery::EVENT_DEFINE_BEHAVIORS, function(DefineBehaviorsEvent $event) {
+            $event->behaviors[$this->id] = EntryQueryBehavior::class;
+        });
     }
 }
