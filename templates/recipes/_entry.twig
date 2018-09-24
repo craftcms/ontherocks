@@ -1,0 +1,85 @@
+{% extends '_layouts/base' %}
+{% set page = 'recipes' %}
+
+{% set photo = entry.photo.one() %}
+
+{% set authorPhotoUrl = entry.author.photo
+    ? entry.author.photo.getUrl({ width: 110, height: 110 })
+    : alias('@web/images/user.svg') %}
+
+{% block title -%}
+    {{ entry.title }} | {{ parent() }}
+{%- endblock %}
+
+{% block bodyClass -%}
+    {{ parent() }} {{ photo ? 'cover-image' }}
+{%- endblock %}
+
+{% block body %}
+    {% if photo %}
+        {% set coverImageUrl = photo.url({ width: 3000, height: 1200 }) %}
+        <div id="cover-image" style="background-image: url({{ coverImageUrl }})"></div>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <main class="container mx-auto px-6">
+        <div class="flex flex-wrap lg:-mx-6 py-12">
+            <div class="w-full lg:w-3/5 lg:px-6">
+                <div id="recipe" class="text-grey-darkest rounded shadow-lg bg-white mb-12">
+                    <div class="shadow p-8 md:p-16">
+                        {% if photo %}
+                            {% set thumbUrl = photo.url({ width: 200, height: 200}) %}
+                            <img class="block w-32 h-32 rounded mx-auto mb-8 lg:float-right lg:ml-16 lg:mb-16" src="{{ thumbUrl }}">
+                        {% endif %}
+
+                        <h1 class="page-heading mt-4 pb-2 border-b-4 border-grey-lighter text-center lg:text-left">{{ entry.title }}</h1>
+                        <ul class="list-reset mb-6">
+                            {% for ingredient in entry.ingredients.all() %}
+                                <li class="mb-1 font-bold">
+                                    {{ ingredient.label }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <ol class="list-reset">
+                            {% for row in entry.directions %}
+                                <li class="mb-2">{{ row.step }}</li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+
+                {% if not entry.isFieldEmpty('description') %}
+                    <div class="rounded bg-grey-light p-8 md:p-16 leading-normal text-grey-darkest description">
+                        {{ entry.description }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="w-full lg:w-2/5 lg:px-6 text-grey-darker text-sm">
+                <div class="rounded border border-grey mb-8">
+                    <div class="glass-type px-4 py-6 flex items-center">
+                        <div class="w-1/2 pr-8 text-right">Serve in</div>
+                        <div class="-ml-6 mr-1">
+                            {{ svg("@webroot/images/glass-icons/#{entry.glass}.svg")|replace('<svg', '<svg class="w-12 h-12 mr-2 stroke-current text-grey-dark"')|raw }}
+                        </div>
+                        <span>{{ entry.glass.label }}</span>
+                    </div>
+                    <div class="border-t border-grey px-4 py-6 flex items-center">
+                        <div class="w-1/2 pr-8 text-right">Submitted by</div>
+                        <div class="-ml-6 mr-1">
+                            <img src="{{ authorPhotoUrl }}" alt="{{ entry.author.name }}" class="block w-12 h-12 rounded-full shadow mr-2">
+                        </div>
+                        <span>{{ entry.author.name }}</span>
+                    </div>
+                </div>
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-1/2 px-4">
+                        <a class="block text-center submit-btn" href="mailto:?subject={{ entry.title|url_encode }}&body={{ "Check out this #{entry.title} recipe I found:\n\n#{entry.url}"|url_encode }}">Share this recipe</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

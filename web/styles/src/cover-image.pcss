@@ -1,0 +1,69 @@
+#cover-image {
+  position: absolute;
+  left: 0;
+  width: 100vw;
+  height: calc(15rem + 1px);
+  background: no-repeat 50% 50%;
+  background-size: cover;
+  z-index: 0;
+}
+
+#cover-image:after {
+  display: block;
+  content: '.';
+  font-size: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.05));
+}
+
+body.cover-image #nav {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.cover-image .nav-item:not(:hover) {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+body.cover-image #nav h1 {
+  @apply text-white;
+}
+
+body.cover-image #nav .submit-btn,
+body.cover-image #nav .sign-up-btn {
+  @apply text-black shadow bg-orange-dark;
+}
+
+body.cover-image #nav .submit-btn svg {
+  @apply text-black;
+}
+
+body.cover-image #nav .submit-btn:hover,
+body.cover-image #nav .sign-up-btn:hover {
+  @apply bg-orange;
+}
+
+body.cover-image #nav img {
+  border-color: transparent;
+}
+
+body.cover-image main {
+  margin-top: 11rem;
+}
+
+body.cover-image #recipe {
+  margin-top: calc(-11rem);
+}
+
+@screen lg {
+  #cover-image {
+    height: calc(34rem + 1px);
+  }
+
+  body.cover-image main {
+    margin-top: 30rem;
+  }
+}

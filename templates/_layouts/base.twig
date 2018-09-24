@@ -1,0 +1,78 @@
+{% set nav = {
+    recipes: { label: 'Recipes', url: url('') }
+} %}
+
+{% set page = page ?? null %}
+{% set path = craft.app.request.pathInfo %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{{ siteName }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ alias('@web/styles/dist/styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ alias('@web/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ alias('@web/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ alias('@web/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ alias('@web/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ alias('@web/safari-pinned-tab.svg') }}" color="#de751f">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body class="{% block bodyClass %}bg-grey-lighter{% endblock %}">
+    {% include '_includes/notification' with {
+        type: 'notice',
+        color: 'blue'
+    } %}
+    {% include '_includes/notification' with {
+        type: 'error',
+        color: 'red'
+    } %}
+
+    {% block body %}
+        <div id="body-container">
+            {% block header %}
+                <div id="nav" class="border-b border-grey-light">
+                    <div class="container mx-auto flex items-center justify-between flex-wrap px-6 py-4">
+                        <a class="flex items-center flex-no-shrink no-underline" href="{{ url('') }}">
+                            {{ svg('@webroot/images/logo.svg')|replace('<svg', '<svg class="h-8 w-8 mr-2"')|raw }}
+                            <h1 class="font-semibold text-xl text-grey-darkest tracking-tight">{{ siteName }}</h1>
+                        </a>
+                        <div class="hidden md:block md:flex-grow"></div>
+                        <div class="flex items-center">
+                            {% if currentUser %}
+                                {% set photoUrl = currentUser.photo
+                                    ? currentUser.photo.getUrl({ width: 60, height: 60 })
+                                    : alias('@web/images/user.svg') %}
+                                <a href="{{ url('account') }}">
+                                    <img src="{{ photoUrl }}" alt="Account" class="block w-8 h-8 rounded-full border border-grey">
+                                </a>
+                            {% else %}
+                                {% if path != 'login' %}
+                                    <a class="nav-item mr-4" href="{{ url('login') }}">Login</a>
+                                {% endif %}
+                                {% if path != 'register' %}
+                                    <a class="sign-up-btn" href="{{ url('register') }}">Sign up</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+
+            {% block main %}
+                <main class="py-12">
+                    {% block content %}
+                    {% endblock %}
+                </main>
+            {% endblock %}
+        </div>
+
+        <script src="{{ alias('@web/scripts/jquery-3.3.1.min.js') }}"></script>
+        <script>
+            window.csrfTokenValue = '{{ craft.app.request.csrfToken|e("js") }}';
+            window.username = {{ (currentUser.username ?? null)|json_encode|raw }};
+        </script>
+    {% endblock %}
+</body>
+</html>

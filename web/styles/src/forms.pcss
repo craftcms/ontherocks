@@ -1,0 +1,50 @@
+.form-label {
+  @apply block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2;
+}
+
+.text-input {
+  @apply appearance-none block w-full bg-grey-light text-grey-darker rounded py-3 px-4 leading-tight border;
+  border-color: transparent;
+  background-clip: padding-box;
+}
+
+.text-input:focus {
+  @apply outline-none bg-white border-grey;
+}
+
+.bg-grey-light .text-input {
+  @apply bg-grey-lightest;
+}
+
+.bg-grey-light .text-input:focus {
+  @apply bg-white;
+}
+
+.text-input:not(.has-error):focus {
+  @apply border-grey;
+}
+
+.text-input.has-error {
+  @apply border-red;
+}
+
+.btn {
+  @apply py-2 px-4 rounded no-underline border border-grey text-grey-darker;
+}
+
+.btn:hover {
+  @apply border-orange;
+  @apply text-orange-dark;
+}
+
+.submit-btn {
+  @apply py-2 px-4 rounded no-underline bg-orange text-white font-bold;
+}
+
+.submit-btn:hover {
+  @apply bg-orange-dark;
+}
+
+.submit-btn:focus {
+  @apply outline-none shadow-outline;
+}

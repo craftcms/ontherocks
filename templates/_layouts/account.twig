@@ -1,0 +1,34 @@
+{% extends '_layouts/base' %}
+
+{% requireLogin %}
+
+{% set accountNav = {
+    profile: { label: 'Profile', url: url('account') },
+    email: { label: 'Change Email', url: url('account/email') },
+    password: { label: 'Change Password', url: url('account/password') }
+} %}
+
+{% set accountPage = accountPage ?? null %}
+
+{% block header %}
+    {{ parent() }}
+    <div class="border-b border-grey-light">
+        <nav id="account-nav" class="container mx-auto md:flex md:items-center md:justify-between md:flex-wrap px-6 py-2">
+            <h2 class="mb-2 md:mb-0 mr-6 font-medium text-lg text-grey-darker tracking-tight">My Account</h2>
+            <ul class="md:flex-grow md:flex md:flex-wrap md:items-center list-reset">
+                {% for key, item in accountNav %}
+                    {% set borderStyles = key == accountPage
+                        ? 'text-orange-dark md:border-b-2 md:border-orange'
+                        : 'text-grey-dark hover:text-orange-dark'
+                    %}
+                    <li class="">
+                        <a href="{{ item.url }}" class="nav-item mr-4 {% if key == accountPage %}nav-active{% endif %}">
+                            {{ item.label }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <a class="nav-item" href="{{ url('logout') }}">Logout</a>
+        </nav>
+    </div>
+{% endblock %}

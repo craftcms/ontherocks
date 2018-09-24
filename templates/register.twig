@@ -1,0 +1,46 @@
+{% extends '_layouts/session-form' %}
+
+{% if currentUser %}
+    {% redirect url('') %}
+{% endif %}
+
+{% block title -%}
+    Register | {{ parent() }}
+{%- endblock %}
+
+{% block heading -%}
+    Create an account
+{%- endblock %}
+
+{% block form %}
+    <input type="hidden" name="action" value="users/save-user">
+    {{ redirectInput('login') }}
+
+    <div class="mb-6">
+        {% include '_includes/text' with {
+            label: 'Username',
+            name: 'username',
+            value: user is defined ? user.username,
+            error: user is defined ? user.getFirstError('username')
+        } %}
+    </div>
+    <div class="mb-6">
+        {% include '_includes/text' with {
+            label: 'Email',
+            name: 'email',
+            type: 'email',
+            value: user is defined ? user.email,
+            error: user is defined ? user.getFirstError('email')
+        } %}
+    </div>
+    <div class="mb-6">
+        {% include '_includes/text' with {
+            label: 'Password',
+            name: 'password',
+            type: 'password',
+            error: user is defined ? user.getFirstError('password')
+        } %}
+    </div>
+    <button class="submit-btn" type="submit">Register</button>
+{% endblock %}
+

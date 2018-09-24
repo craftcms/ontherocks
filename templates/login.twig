@@ -1,0 +1,35 @@
+{% extends '_layouts/session-form' %}
+
+{% if currentUser %}
+    {% redirect url('') %}
+{% endif %}
+
+{% block title -%}
+    Login | {{ parent() }}
+{%- endblock %}
+
+{% block heading -%}
+    Login to your account
+{%- endblock %}
+
+{% block form %}
+    <input type="hidden" name="action" value="users/login">
+    {{ redirectInput('') }}
+
+    <div class="mb-6">
+        {% include '_includes/text' with {
+            label: 'Username or Email',
+            name: 'loginName',
+            value: craft.app.user.getRememberedUsername()
+        } %}
+    </div>
+    <div class="mb-6">
+        {% include '_includes/text' with {
+            label: 'Password',
+            name: 'password',
+            type: 'password'
+        } %}
+    </div>
+    <button class="submit-btn" type="submit">Login</button>
+{% endblock %}
+

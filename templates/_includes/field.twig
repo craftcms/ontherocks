@@ -1,0 +1,11 @@
+<label class="form-label" for="{{ id }}">{{ label }}</label>
+
+{% if instructions ?? false %}
+    <p class="mb-2 text-xs text-grey-dark">{{ instructions }}</p>
+{% endif %}
+
+{% block input %}{% endblock %}
+
+{% if error ?? false %}
+    <p class="mt-2 text-red text-xs">{{ error }}</p>
+{% endif %}

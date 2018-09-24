@@ -1,0 +1,14 @@
+{% extends '_layouts/base' %}
+
+{% block content %}
+    <div class="container mx-auto px-6">
+        <div class="max-w-sm mx-auto">
+            <h2 class="mb-4 text-center text-grey-darkest font-normal">{% block heading %}{% endblock %}</h2>
+            <form class="bg-grey-light p-12" method="post" action="">
+                {{ csrfInput() }}
+                {% block form %}
+                {% endblock %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

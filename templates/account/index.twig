@@ -1,0 +1,54 @@
+{% extends '_layouts/account' %}
+
+{% set accountPage = 'profile' %}
+
+{% block title -%}
+    Profile | {{ parent() }}
+{%- endblock %}
+
+{% set user = user ?? currentUser %}
+
+{% block content %}
+    <div class="container mx-auto px-6">
+        <div class="max-w-md mx-auto">
+            <h1 class="page-heading">Profile</h1>
+
+            <form class="w-full" method="post" action="">
+                {{ csrfInput() }}
+                <input type="hidden" name="action" value="users/save-user">
+                <input type="hidden" name="userId" value="{{ currentUser.id }}">
+
+                <div class="md:flex md:flex-wrap md:-mx-3 md:mb-6">
+                    <div class="mb-6 md:mb-0 md:w-1/2 md:px-3">
+                        {% include '_includes/text' with {
+                            label: 'First Name',
+                            name: 'firstName',
+                            value: user.firstName,
+                            placeholder: 'Jane',
+                            error: user.getFirstError('firstName')
+                        } %}
+                    </div>
+                    <div class="mb-6 md:mb-0 md:w-1/2 md:px-3">
+                        {% include '_includes/text' with {
+                            label: 'Last Name',
+                            name: 'lastName',
+                            value: user.lastName,
+                            placeholder: 'Doe',
+                            error: user.getFirstError('lastName')
+                        } %}
+                    </div>
+                </div>
+                <div class="mb-6">
+                    {% include '_includes/text' with {
+                        label: 'Location',
+                        name: 'fields[location]',
+                        value: user.location,
+                        error: user.getFirstError('field:location')
+                    } %}
+                </div>
+
+                <button class="submit-btn" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

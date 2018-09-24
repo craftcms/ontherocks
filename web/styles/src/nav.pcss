@@ -1,0 +1,35 @@
+#account-nav a.border-b-2 {
+  height: calc(3rem + 1px);
+  margin-bottom: calc(-0.5rem - 1px);
+  padding-bottom: calc(1rem + 1px);
+}
+
+.nav-item {
+  @apply block -my-2 py-4 h-12 no-underline text-sm;
+}
+
+.nav-item:not(.nav-active) {
+  @apply text-grey-dark;
+}
+
+.nav-item:hover {
+  @apply text-orange-dark;
+}
+
+.nav-active {
+  @apply text-orange-dark;
+}
+
+.sign-up-btn {
+  @apply block bg-orange text-white px-3 py-2 rounded no-underline text-sm;
+}
+
+.sign-up-btn:hover {
+  @apply bg-orange-dark;
+}
+
+@screen md {
+  .nav-item.nav-active {
+    @apply border-b-2 border-orange;
+  }
+}

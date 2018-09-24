@@ -1,0 +1,12 @@
+{% extends '_includes/field' %}
+
+{% set id = id ?? 'field-'~(name|kebab) %}
+{% set value = value ?? null %}
+{% set placeholder = placeholder ?? null %}
+{% set required = required ?? false %}
+{% set error = error ?? null %}
+{% set rows = rows ?? 2 %}
+
+{% block input %}
+    <textarea class="text-input resize-y {% if error %}has-error{% endif %}" id="{{ id }}" name="{{ name }}" placeholder="{{ placeholder }}" rows="{{ rows }}" {% if required %}required{% endif %}>{{ value|raw }}</textarea>
+{% endblock %}

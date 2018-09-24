@@ -1,0 +1,40 @@
+{% extends '_layouts/base' %}
+
+{% set page = 'recipes' %}
+{% block title -%}
+    Recipes | {{ parent() }}
+{%- endblock %}
+
+{% set searchQuery = craft.app.request.getQueryParam('search') %}
+
+{% set recipes = craft.entries()
+    .section('recipes')
+    .search(searchQuery)
+    .all() %}
+
+{% block main %}
+    <main>
+        <div class="bg-grey-light py-6 br mb-8 rounded">
+            <div class="container mx-auto px-6">
+                <div class="md:flex -mx-4">
+                    <div class="mb-1 md:mb-0 px-4 w-full">
+                        <input id="search" class="text-input" type="text" placeholder="Search by keyword" value="{{ searchQuery }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6">
+            <div id="recipe-list" class="flex flex-wrap -mx-4">
+                {% include '_includes/recipe-list' with {
+                    recipes: recipes
+                } %}
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block body %}
+    {{ parent()|raw }}
+    <script src="{{ alias('@web/scripts/recipe-index.js') }}"></script>
+{% endblock %}

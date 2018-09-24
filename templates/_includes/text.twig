@@ -1,0 +1,12 @@
+{% extends '_includes/field' %}
+
+{% set id = id ?? 'field-'~(name|kebab) %}
+{% set type = type ?? 'text' %}
+{% set value = value ?? null %}
+{% set placeholder = placeholder ?? null %}
+{% set required = required ?? false %}
+{% set error = error ?? null %}
+
+{% block input %}
+    <input class="text-input {% if error %}has-error{% endif %}" id="{{ id }}" name="{{ name }}" value="{{ value }}" type="{{ type }}" placeholder="{{ placeholder }}" {% if required %}required{% endif %}>
+{% endblock %}

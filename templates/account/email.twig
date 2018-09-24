@@ -1,0 +1,44 @@
+{% extends '_layouts/account' %}
+
+{% set accountPage = 'email' %}
+
+{% block title -%}
+    Change Email | {{ parent() }}
+{%- endblock %}
+
+{% set user = user ?? currentUser %}
+
+{% block content %}
+    <div class="container mx-auto px-6">
+        <div class="max-w-md mx-auto">
+            <h1 class="page-heading">Change Email</h1>
+
+            <form class="w-full" method="post" action="">
+                {{ csrfInput() }}
+                <input type="hidden" name="action" value="users/save-user">
+                <input type="hidden" name="userId" value="{{ currentUser.id }}">
+
+                <div class="mb-6">
+                    {% include '_includes/text' with {
+                        label: 'New Email',
+                        name: 'email',
+                        value: user.email,
+                        error: user.getFirstError('email'),
+                        type: 'email'
+                    } %}
+                </div>
+                <div class="mb-6">
+                    {% include '_includes/text' with {
+                        label: 'Your Password',
+                        name: 'password',
+                        type: 'password',
+                        required: true,
+                        error: user.getFirstError('password')
+                    } %}
+                </div>
+
+                <button class="submit-btn" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

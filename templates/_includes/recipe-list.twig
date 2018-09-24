@@ -1,0 +1,15 @@
+{% for recipe in recipes %}
+    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
+        <a class="block rounded overflow-hidden bg-white hover:bg-white no-underline border-grey-light border hover:border-orange text-grey-darker hover:text-orange-dark" href="{{ recipe.url }}">
+            {% set photo = recipe.photo.one() %}
+            {% if photo %}
+                <img class="thumbnail" src="{{ photo.url({ width: 600, height: 400 }) }}">
+            {% else %}
+                {{ svg('@webroot/images/missing-photo.svg')|replace('<svg', '<svg class="thumbnail"')|raw }}
+            {% endif %}
+            <div class="flex items-center justify-between p-6">
+                <span class="font-bold">{{ recipe.title }}</span>
+            </div>
+        </a>
+    </div>
+{% endfor %}
