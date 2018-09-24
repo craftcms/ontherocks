@@ -15,6 +15,7 @@ use ontherocks\behaviors\EntryQueryBehavior;
 use ontherocks\behaviors\RecipeBehavior;
 use ontherocks\behaviors\UserBehavior;
 use ontherocks\services\Reactions;
+use ontherocks\web\TwigExtension;
 use yii\base\Event;
 
 /**
@@ -89,5 +90,10 @@ class Module extends \yii\base\Module
 
         // set the module components
         $this->set('reactions', Reactions::class);
+
+        // register our Twig extension
+        if (!Craft::$app->request->isConsoleRequest) {
+            Craft::$app->view->registerTwigExtension(new TwigExtension());
+        }
     }
 }

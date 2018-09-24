@@ -1,3 +1,5 @@
+{% do loadReactions(recipes) %}
+
 {% for recipe in recipes %}
     <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-4">
         <a class="block rounded overflow-hidden bg-white hover:bg-white no-underline border-grey-light border hover:border-orange text-grey-darker hover:text-orange-dark" href="{{ recipe.url }}">
