@@ -2,10 +2,7 @@
 
 {% set accountPage = 'recipes' %}
 
-{% set recipes = craft.entries()
-    .section('recipes')
-    .authorId(currentUser.id)
-    .all() %}
+{% set recipes = currentUser.recipes.all() %}
 
 {% block title -%}
     My Recipes | {{ parent() }}

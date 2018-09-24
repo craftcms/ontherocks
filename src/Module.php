@@ -6,9 +6,11 @@ use Craft;
 use craft\base\Element;
 use craft\elements\db\EntryQuery;
 use craft\elements\Entry;
+use craft\elements\User;
 use craft\events\DefineBehaviorsEvent;
 use ontherocks\behaviors\EntryQueryBehavior;
 use ontherocks\behaviors\RecipeBehavior;
+use ontherocks\behaviors\UserBehavior;
 use yii\base\Event;
 
 /**
@@ -60,6 +62,11 @@ class Module extends \yii\base\Module
             if ($entry->id && $entry->section->handle === 'recipes') {
                 $event->behaviors["$this->id.recipe"] = RecipeBehavior::class;
             }
+        });
+
+        // define user behavior
+        Event::on(User::class, Element::EVENT_DEFINE_BEHAVIORS, function(DefineBehaviorsEvent $event) {
+            $event->behaviors[$this->id] = UserBehavior::class;
         });
     }
 }
