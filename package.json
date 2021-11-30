@@ -1,7 +1,7 @@
 {
   "private": true,
   "devDependencies": {
-    "autoprefixer": "^9.1.5",
+    "autoprefixer": "^9.8.8",
     "gulp": "^3.9.1",
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
